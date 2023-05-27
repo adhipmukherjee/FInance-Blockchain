@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Online Finance Blockchain</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+
+  <style>
+    body {
+      margin: 0;
+      padding: 20px;
+      font-family: Arial, sans-serif;
+      background-image: url(background.jpg);
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      overflow: hidden;
+      zoom: 80%;
+    }
+    
+    #container {
+      margin: 20px auto;
+      max-width: 800px;
+      background-color: rgba(255, 255, 255, 0.8);
+      padding: 20px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      border-radius: 10px;
+    }
+    
+    h1 {
+      font-size: 36px;
+      margin-bottom: 30px;
+      text-align: center;
+      color: #007bff;
+    }
+    
+    h2 {
+      font-size: 24px;
+      margin-bottom: 20px;
+      color: #333;
+    }
+    
+    p {
+      font-size: 18px;
+      margin-bottom: 10px;
+      color: #555;
+    }
+    
+    ul {
+      list-style-type: none;
+      padding-left: 0;
+      margin-top: 0;
+      margin-bottom: 20px;
+    }
+    
+    li {
+      font-size: 16px;
+      margin-bottom: 5px;
+      color: #555;
+    }
+    
+    form {
+      margin-top: 20px;
+      text-align: center;
+    }
+    
+    input, button {
+      padding: 10px;
+      font-size: 16px;
+      border: none;
+      border-radius: 5px;
+      margin-bottom: 10px;
+      width: 100%;
+      box-sizing: border-box;
+    }
+    
+    button {
+      background-color: #007bff;
+      color: #fff;
+      cursor: pointer;
+      width: auto;
+      display: inline-block;
+      margin-top: 10px;
+    }
+
+    #accountBalanceInput {
+      display: none;
+      margin-bottom: 10px;
+    }
+
+    .social-links {
+      display: flex;
+      justify-content: center;
+      margin-top: 30px;
+    }
+
+    .social-links a {
+      display: inline-block;
+      margin: 0 10px;
+      color: #007bff;
+      transition: color 0.3s;
+    }
+
+    .social-links a:hover {
+      color: #FFB6C1;
+    }
+
+    .social-links i {
+      font-size: 24px;
+    }
+
+    .transaction-history {
+      margin-top: 30px;
+    }
+
+    .transaction-history ul {
+      list-style-type: none;
+      padding-left: 0;
+      margin-top: 0;
+    }
+
+    .transaction-history li {
+      font-size: 16px;
+      margin-bottom: 5px;
+      color: #555;
+    }
+
+    .transaction-history button {
+      background-color: #007bff;
+      color: #fff;
+      cursor: pointer;
+      width: auto;
+      display: inline-block;
+      margin-top: 10px;
+    }
+
+    .transaction-history button:hover {
+      background-color: #0056b3;
+    }
+
+    .transaction-history .hide-history {
+      display: none;
+    }
+
+    .transaction-history .show-history {
+      display: block;
+    }
+
+    .transaction-history .hide-history + ul {
+      display: none;
+    }
+
+    .transaction-history .show-history + ul {
+      display: block;
+    }
+
+    .rounded-box {
+      border-radius: 5px;
+      padding: 10px;
+    }
+
+    .copyright {
+      font-size: 14px;
+      color: #555;
+      text-align: center;
+      margin-top: 30px;
+    }
+  </style>
+</head>
+<body>
+  <div id="container">
+    <h1>Online Finance Blockchain</h1>
+
+    <h2>Account Balance</h2>
+    <p id="accountBalance" onmouseover="showAccountBalanceInput()" onclick="editAccountBalance()">Loading...</p>
+    <input type="number" id="accountBalanceInput" step="0.01" onblur="updateAccountBalance()" onkeypress="handleAccountBalanceKeyPress(event)">
+
+    <h2>Create Transaction</h2>
+    <form id="transactionForm">
+      <input type="text" id="sender" placeholder="Sender" required>
+      <br>
+      <input type="text" id="recipient" placeholder="Recipient" required>
+      <br>
+      <input type="number" id="amount" placeholder="Amount" required>
+      <br>
+      <button type="submit">Send</button>
+    </form>
+
+    <div class="transaction-history">
+      <button class="hide-history" onclick="toggleTransactionHistory(this)">Hide Transaction History</button>
+      <button class="show-history" onclick="toggleTransactionHistory(this)">Show Transaction History</button>
+      <ul id="transactionHistoryList">
+        <!-- Transaction history items will be dynamically added here -->
+      </ul>
+    </div>
+
+    <div class="social-links">
+      <a href="mailto:adhipmukherjee12@gmail.com"><i class="far fa-envelope"></i></a>
+      <a href="https://twitter.com/chromeslugs"><i class="fab fa-twitter"></i></a>
+      <a href="https://www.instagram.com/chromeslugx/"><i class="fab fa-instagram"></i></a>
+      <a href="https://www.linkedin.com/in/adhip-mukhopadhyay-2a4456199/"><i class="fab fa-linkedin-in"></i></a>
+      <a href="https://github.com/adhipmukherjee"><i class="fab fa-github"></i></a>
+      <a href="https://www.reddit.com/user/knightr0gen_"><i class="fab fa-reddit"></i></a>
+    </div>
+
+    <p class="copyright">
+      &copy; 2023 Adhip Mukhopadhyay. All rights reserved.
+    </p>
+  </div>
+
+  <script>
+    // Placeholder values for account balance and transaction history
+    var accountBalance = 1000;
+    var transactionHistory = [];
+
+    // Get elements
+    var accountBalanceElement = document.getElementById("accountBalance");
+    var accountBalanceInputElement = document.getElementById("accountBalanceInput");
+    var transactionForm = document.getElementById("transactionForm");
+    var transactionHistoryList = document.getElementById("transactionHistoryList");
+
+    // Display initial account balance
+    displayAccountBalance();
+
+    // Display initial transaction history
+    displayTransactionHistory();
+
+    // Function to display account balance
+    function displayAccountBalance() {
+      accountBalanceElement.textContent = "$" + accountBalance.toFixed(2);
+      accountBalanceInputElement.value = accountBalance.toFixed(2);
+    }
+
+    // Function to update account balance
+    function updateAccountBalance() {
+      accountBalance = parseFloat(accountBalanceInputElement.value);
+      displayAccountBalance();
+    }
+
+    // Function to handle keypress events on account balance input
+    function handleAccountBalanceKeyPress(event) {
+      // Allow only numeric and decimal point input
+      var charCode = event.charCode;
+      if (charCode != 46 && charCode > 31 && (charCode < 48 || charCode > 57)) {
+        event.preventDefault();
+      }
+    }
+
+    // Function to handle transaction submission
+    transactionForm.addEventListener("submit", function (event) {
+      event.preventDefault();
+
+      // Get form values
+      var sender = document.getElementById("sender").value;
+      var recipient = document.getElementById("recipient").value;
+      var amount = parseFloat(document.getElementById("amount").value);
+
+      // Perform transaction
+      if (sender && recipient && !isNaN(amount) && amount > 0) {
+        var transaction = {
+          sender: sender,
+          recipient: recipient,
+          amount: amount
+        };
+
+        // Update account balance
+        accountBalance -= amount;
+        displayAccountBalance();
+
+        // Add transaction to history
+        transactionHistory.push(transaction);
+        displayTransactionHistory();
+
+        // Reset form
+        transactionForm.reset();
+      }
+    });
+
+    // Function to display transaction history
+    function displayTransactionHistory() {
+      // Clear existing transaction history
+      transactionHistoryList.innerHTML = "";
+
+      // Generate new transaction history
+      transactionHistory.forEach(function (transaction) {
+        var li = document.createElement("li");
+        li.textContent = "From: " + transaction.sender + ", To: " + transaction.recipient + ", Amount: $" + transaction.amount.toFixed(2);
+        transactionHistoryList.appendChild(li);
+      });
+
+      // Show or hide transaction history section based on the presence of transactions
+      var transactionHistorySection = document.querySelector(".transaction-history");
+      if (transactionHistory.length > 0) {
+        transactionHistorySection.classList.remove("hide-history");
+        transactionHistorySection.classList.add("show-history");
+      } else {
+        transactionHistorySection.classList.remove("show-history");
+        transactionHistorySection.classList.add("hide-history");
+      }
+    }
+
+    // Function to toggle transaction history visibility
+    function toggleTransactionHistory(button) {
+      var transactionHistorySection = document.querySelector(".transaction-history");
+
+      if (transactionHistorySection.classList.contains("hide-history")) {
+        transactionHistorySection.classList.remove("hide-history");
+        transactionHistorySection.classList.add("show-history");
+        button.textContent = "Hide Transaction History";
+      } else {
+        transactionHistorySection.classList.remove("show-history");
+        transactionHistorySection.classList.add("hide-history");
+        button.textContent = "Show Transaction History";
+      }
+    }
+
+    // Show account balance input for editing
+    function editAccountBalance() {
+      accountBalanceElement.style.display = "none";
+      accountBalanceInputElement.style.display = "block";
+      accountBalanceInputElement.focus();
+    }
+
+    // Show account balance input when mouse hovers over balance
+    function showAccountBalanceInput() {
+      accountBalanceElement.style.display = "none";
+      accountBalanceInputElement.style.display = "block";
+    }
+  </script>
+</body>
+</html>
